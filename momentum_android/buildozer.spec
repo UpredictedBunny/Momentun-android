@@ -63,10 +63,10 @@ log_level = 2
 warn_on_root = 1
 
 # ---- P4A recipe overrides -------------------------------------------
-# Use the stable p4a branch; current develop defaults to Python 3.14,
-# which is incompatible with the pinned Kivy 2.3.0 build in this project.
+# Keep p4a on its stable branch, and explicitly pin the Android Python recipe
+# because current p4a master otherwise selects Python 3.14, which is not
+# compatible with the Kivy 2.3.0 native sources used by this app.
 p4a.branch = master
-# p4a.branch = master   # uncomment to build from p4a HEAD
 
 [buildozer]
 log_level = 2
