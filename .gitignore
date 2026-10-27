@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.Python
+.venv/
+venv/
+env/
+
+# Build outputs and caches
+.buildozer/
+bin/
+build/
+dist/
+*.spec.bak
+
+# Local app data and backups
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+backups/
+*.bak
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.*
+*.keystore
+*.jks
