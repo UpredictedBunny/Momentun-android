@@ -15,12 +15,18 @@ source.include_exts = py,png,jpg,kv,atlas,json,sql,md
 source.main = main.py
 
 # ---- Requirements ----------------------------------------------------
+# IMPORTANT: keep the Python recipe pinned to a compatible version.
+# The unqualified `python3` recipe resolves to Python 3.14 in current p4a,
+# which is incompatible with the Kivy 2.3.0/Cython-generated native code used
+# by this project. Python 3.11 is the last widely compatible interpreter for
+# this Kivy/KivyMD stack.
+#
 # Only Android-compatible packages.
 # sqlite3 is part of CPython stdlib (compiled into the interpreter by p4a)
 # and must NOT appear here — p4a has no separate recipe for it.
 # customtkinter, pyinstaller, matplotlib are intentionally excluded.
 # plyer provides Android notifications.
-requirements = python3,kivy==2.3.0,kivymd==1.2.0,plyer
+requirements = python3==3.11.9,kivy==2.3.0,kivymd==1.2.0,plyer
 
 # ---- Android ---------------------------------------------------------
 # Automatically accept Android SDK component licenses in CI.
