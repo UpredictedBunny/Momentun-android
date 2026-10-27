@@ -57,6 +57,9 @@ log_level = 2
 warn_on_root = 1
 
 # ---- P4A recipe overrides -------------------------------------------
+# Use the stable p4a branch; current develop defaults to Python 3.14,
+# which is incompatible with the pinned Kivy 2.3.0 build in this project.
+p4a.branch = master
 # p4a.branch = master   # uncomment to build from p4a HEAD
 
 [buildozer]
