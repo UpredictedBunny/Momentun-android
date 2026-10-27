@@ -23,6 +23,8 @@ source.main = main.py
 requirements = python3,kivy==2.3.0,kivymd==1.2.0,plyer
 
 # ---- Android ---------------------------------------------------------
+# Automatically accept Android SDK component licenses in CI.
+android.accept_sdk_license = True
 android.permissions = INTERNET,RECEIVE_BOOT_COMPLETED,VIBRATE,POST_NOTIFICATIONS,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
 
 # Minimum SDK 21 = Android 5.0 Lollipop (wide device coverage)
