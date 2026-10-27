@@ -1,35 +1,24 @@
 # Python
 __pycache__/
 *.py[cod]
-*.pyd
-.Python
 .venv/
 venv/
-env/
 
-# Build outputs and caches
+# Buildozer / Android build output
 .buildozer/
 bin/
-build/
-dist/
-*.spec.bak
+output/
 
-# Local app data and backups
-*.db
-*.sqlite
-*.sqlite3
-*.db-journal
-backups/
-*.bak
-
-# IDE / OS
+# IDE and OS
 .idea/
 .vscode/
 .DS_Store
 Thumbs.db
 
-# Secrets
-.env
-.env.*
-*.keystore
+# Local data / secrets
+*.db
+*.sqlite
+*.sqlite3
 *.jks
+*.keystore
+.env

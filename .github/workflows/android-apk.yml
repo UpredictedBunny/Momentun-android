@@ -3,10 +3,7 @@ name: Build Momentum Android APK
 on:
   workflow_dispatch:
   push:
-    paths:
-      - "momentum_android/**"
-      - ".github/workflows/android-apk.yml"
-  pull_request:
+    branches: [main, master]
     paths:
       - "momentum_android/**"
       - ".github/workflows/android-apk.yml"
@@ -14,62 +11,58 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: android-apk-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  build:
-    name: Build debug APK
+  build-apk:
     runs-on: ubuntu-22.04
-    timeout-minutes: 60
-    defaults:
-      run:
-        working-directory: momentum_android
-
+    timeout-minutes: 90
     steps:
-      - name: Check out source
+      - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            git zip unzip autoconf libtool pkg-config \
-            zlib1g-dev libncurses5-dev libncursesw5-dev \
-            libtinfo5 cmake libffi-dev libssl-dev \
+            git zip unzip openjdk-17-jdk python3-pip python3-venv \
+            autoconf libtool pkg-config zlib1g-dev libncurses5-dev \
+            libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev \
             automake gettext
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: pip
+          cache: "pip"
 
       - name: Install Buildozer
         run: |
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install buildozer cython==0.29.34
 
-      - name: Validate project configuration
-        run: |
-          test -f main.py || (echo "::error::momentum_android/main.py is missing" && exit 1)
-          test -f buildozer.spec || (echo "::error::momentum_android/buildozer.spec is missing" && exit 1)
-          grep -q '^\[app\]' buildozer.spec || (echo "::error::buildozer.spec has no [app] section" && exit 1)
-
       - name: Build debug APK
+        working-directory: momentum_android
+        env:
+          P4A_RELEASE: "0"
         run: buildozer -v android debug
+
+      - name: Collect APK
+        shell: bash
+        working-directory: momentum_android
+        run: |
+          mkdir -p output
+          APK_PATH="$(find bin .buildozer -type f -name '*.apk' -print -quit 2>/dev/null || true)"
+          if [ -z "$APK_PATH" ]; then
+            echo "No APK found after build."
+            find . -type f -name '*.apk' -print
+            exit 1
+          fi
+          cp "$APK_PATH" output/Momentum-debug.apk
+          ls -lh output/Momentum-debug.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: Momentum-Android-debug-APK
-          path: momentum_android/bin/*.apk
+          path: momentum_android/output/Momentum-debug.apk
           if-no-files-found: error
           retention-days: 14
