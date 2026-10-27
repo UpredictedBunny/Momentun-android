@@ -26,7 +26,7 @@ source.main = main.py
 # and must NOT appear here — p4a has no separate recipe for it.
 # customtkinter, pyinstaller, matplotlib are intentionally excluded.
 # plyer provides Android notifications.
-requirements = python3==3.11.9,kivy==2.3.0,kivymd==1.2.0,plyer
+requirements = python3==3.11.9,hostpython3==3.11.9,kivy==2.3.0,kivymd==1.2.0,plyer
 
 # ---- Android ---------------------------------------------------------
 # Automatically accept Android SDK component licenses in CI.
